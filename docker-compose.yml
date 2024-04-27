@@ -1,0 +1,28 @@
+version: "3.9"
+services:
+  gd_dev:
+    image: postgres:latest
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: gd_dev
+    deploy:
+      mode: replicated
+      replicas: 1
+    volumes:
+      - ./db-data/postgres/gd_dev:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4_container
+    restart: always
+    ports:
+      - "8888:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: test@test.com
+      PGADMIN_DEFAULT_PASSWORD: test
+    volumes:
+      - ./db-data/pgadmin-data:/var/lib/pgadmin
